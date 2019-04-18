@@ -3396,9 +3396,10 @@ describe('Cursor', function() {
         test.equal(null, err);
 
         db.collection('myCollection').find({}, function(error, cursor) {
+          console.log(cursor.s.namespace);
           test.equal(null, err);
-          test.equal('myCollection', cursor.namespace.collection);
-          test.equal('integration_tests', cursor.namespace.database);
+          test.equal('myCollection', cursor.s.namespace.collection);
+          test.equal('integration_tests', cursor.s.namespace.db);
 
           client.close();
           done();
@@ -4330,7 +4331,7 @@ describe('Cursor', function() {
           slaveOk: false
         };
 
-        var cursor = db.s.topology.cursor(db.s.namespace, findCommand, { readPreference: 42 });
+        var cursor = db.s.topology.cursor(db.namespace, findCommand, { readPreference: 42 });
         cursor.hasNext(function(err) {
           test.ok(err !== null);
           test.equal(err.message, 'readPreference must be a ReadPreference instance');
